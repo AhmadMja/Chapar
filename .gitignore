@@ -1,0 +1,15 @@
+
+.DS_Store
+.idea/
+
+node_modules/
+docs/
+dist/
+coverage/
+
+*.sh
+!build.sh
+
+package-lock.json
+
+config/local-*.js
