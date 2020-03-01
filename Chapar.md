@@ -35,7 +35,7 @@ This message **pushes** `Chapar.RPCServer`  in MS2. MS2 calls the internal contr
 
 
 
-![	Chapar1 (2)](/home/mja/Downloads/Chapar1(2).png)
+![Chapar2](/home/mja/Downloads/Chapar1(2).png)
 
 
 
