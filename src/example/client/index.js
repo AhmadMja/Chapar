@@ -38,7 +38,7 @@ async function main() {
   });
 
   setInterval(async () => {
-    const { status, body, headers } = await RPCClient('GET', '/2', {}, {}, {});
+    const { status, body, headers } = await RPCClient('GET', '/2', {}, {}, {}, {});
     console.log(`${status}, ${body}, ${headers}`);
   }, 1000);
 }
