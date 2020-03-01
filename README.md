@@ -63,8 +63,8 @@ const config = {
   rabbitMQ: { // required
     host: 'localhost', // required
     port: 5672, // required
-    username: 'AhmadMja', // optional, (needed if rabbitMQ requires authentication)
-    password: '125879Mja' // optional, (needed if rabbitMQ requires authentication)
+    username: 'RABBITMQ_UESRNAME', // optional, (needed if rabbitMQ requires authentication)
+    password: 'RABBITMQ_PASSWORD' // optional, (needed if rabbitMQ requires authentication)
   },
   exchange: { // required
     name: 'MY_APP_EXCHANGE_NAME', // required
@@ -103,8 +103,8 @@ const ConfiguredRPCClient = RPCClient({
   rabbitMQ: { // required
     host: 'localhost', // required
     port: 5672, // required
-    username: 'AhmadMja', // optional, (needed if rabbitMQ requires authentication)
-    password: '125879Mja' // optional, (needed if rabbitMQ requires authentication)
+    username: 'RABBITMQ_USERNAME', // optional, (needed if rabbitMQ requires authentication)
+    password: 'RABBITMQ_PASSWORD' // optional, (needed if rabbitMQ requires authentication)
   },
   exchange: { // required
     name: 'MY_APP_EXCHANGE_NAME', // required
