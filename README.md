@@ -24,8 +24,9 @@ Chapar helps you to use AMQP as underlying communication protocol with **absolut
 Suppose you have two micro-services in your production server, MS1 and MS2. MS1 has very high number of requests per seconds that needs to be processed by MS2. MS2 is a server for MS1. 
 
 
-
-![Chapar micro-service, RPC](https://raw.githubusercontent.com/AhmadMja/Chapar/master/docs/Chapar1.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/AhmadMja/Chapar/master/docs/Chapar1.png">
+</p>
 
 
 
@@ -35,7 +36,9 @@ This message **pushes** `Chapar.RPCServer`  in MS2. MS2 calls the internal contr
 
 
 
-![Chapar micro-service, RPC, Architecture](https://raw.githubusercontent.com/AhmadMja/Chapar/master/docs/Chapar2.png)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/AhmadMja/Chapar/master/docs/Chapar2.png">
+</p>
 
 
 
