@@ -1,8 +1,8 @@
 {
   "name": "chapar",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "run-mock": "node test/mock/bin/www",
     "dev-run-example-rpc-express": "nodemon --exec npx babel-node ./src/example/server",
