@@ -1,6 +1,6 @@
 {
   "name": "chapar",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "#### Reliable Express/Node.js RPC over RabbitMQ",
   "main": "dist/index.js",
   "scripts": {

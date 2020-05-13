@@ -86,7 +86,7 @@ export default async function(clientConfig) {
         callbackCorrMap.splice(callbackCorrMap.indexOf(callbackObject), 1);
       } else {
         console.log(
-          '[WARNING] Chapar: A message received in the queue witch correlated callback was not found in the client.'
+          '[WARNING] Chapar: A message received in the queue which correlated callback was not found in the client.'
         );
       }
     },

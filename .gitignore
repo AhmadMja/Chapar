@@ -10,6 +10,8 @@ coverage/
 *.sh
 !build.sh
 
+dist/
+
 package-lock.json
 
 config/local-*.js

@@ -25,7 +25,7 @@ async function main() {
       options: {
         exclusive: true // optional, default={ exclusive: true }
       },
-      prefetch: 0 // optional, default=0 witch means unlimited
+      prefetch: 0 // optional, default=0 which means unlimited
     },
     // optional
     publish: {

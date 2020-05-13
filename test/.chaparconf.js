@@ -23,7 +23,7 @@ module.exports= {
       options: {
         exclusive: true // optional, default={ exclusive: true }
       },
-      prefetch: 0 // optional, default=0 witch means unlimited
+      prefetch: 0 // optional, default=0 which means unlimited
     },
     // optional
     publish: {
@@ -59,7 +59,7 @@ module.exports= {
         exclusive: false // optional, default={ exclusive: false }
       },
       bindKey: 'HTTP_OVER_AMQP_ROUTING_KEY', // optional, default='HTTP_OVER_AMQP_ROUTING_KEY',
-      prefetch: 0 // optional, default=0 witch means unlimited
+      prefetch: 0 // optional, default=0 which means unlimited
     }
   }
 };
