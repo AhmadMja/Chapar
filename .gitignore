@@ -3,7 +3,8 @@
 .idea/
 
 node_modules/
-dist/
+# uncommnet this
+# dist/
 coverage/
 
 *.sh
