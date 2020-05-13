@@ -1,9 +1,11 @@
 {
   "name": "chapar",
-  "version": "1.0.1",
-  "description": "",
+  "version": "1.0.10",
+  "description": "#### Reliable Express/Node.js RPC over RabbitMQ",
   "main": "dist/index.js",
   "scripts": {
+    "build": "rm -rf dist && babel src --ignore node_modules --out-dir dist --copy-files --delete-dir-on-start --config-file=./babel.config.js",
+    "prepublish": "npm run build",
     "run-mock": "node test/mock/bin/www",
     "dev-run-example-rpc-express": "nodemon --exec npx babel-node ./src/example/server",
     "dev-run-example-rpc-client": "nodemon --exec npx babel-node ./src/example/client",
@@ -50,6 +52,13 @@
     "prettier": "^1.18.2",
     "regenerator-runtime": "^0.13.2"
   },
-  "author": "",
-  "license": "ISC"
+  "author": {
+    "name": "Ahmad Jahanbin @ Lamasoo"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/AhmadMja/Chapar#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AhmadMja/Chapar.git"
+  }
 }

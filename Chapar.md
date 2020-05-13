@@ -76,7 +76,7 @@ const config = {
       exclusive: false // optional, default={ exclusive: false }
     },
     bindKey: 'HTTP_OVER_AMQP_ROUTING_KEY', // optional default='HTTP_OVER_AMQP_ROUTING_KEY',
-    prefetch: 0 // optional, default=0 witch means unlimited
+    prefetch: 0 // optional, default=0 which means unlimited
   }
 };
 
@@ -115,7 +115,7 @@ const ConfiguredRPCClient = RPCClient({
     options: { // optional
       exclusive: true // optional, default={ exclusive: true }
     },
-    prefetch: 0 // optional, default=0 witch means unlimited
+    prefetch: 0 // optional, default=0 which means unlimited
   },
   publish: { // optional
     routingKey: 'HTTP_OVER_AMQP_ROUTING_KEY', // optional, default='HTTP_OVER_AMQP_ROUTING_KEY',
