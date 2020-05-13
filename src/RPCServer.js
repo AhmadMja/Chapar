@@ -5,6 +5,7 @@ import ExpressResponse from './schema/Response';
 import httpRequestSchema from './validator/httpRequest';
 import httpResponseSchema from './validator/httpResponse';
 
+const rabbitMQError = new Error('RabbitMQ');
 const ajv = new Ajv();
 const validateHttpRequest = ajv.compile(httpRequestSchema);
 const validateHttpResponse = ajv.compile(httpResponseSchema);
@@ -40,8 +41,15 @@ export default async function(/* Express App */ app, serverConfig) {
       ? `amqp://${serverConfig.rabbitMQ.host}:${serverConfig.rabbitMQ.port}`
       : `amqp://${serverConfig.rabbitMQ.username}:${serverConfig.rabbitMQ.password}@${serverConfig.rabbitMQ.host}:${serverConfig.rabbitMQ.port}`
   );
-  const channel = await connection.createChannel();
+  connection.on('error', error => {
+    console.error(error, '[RabbitMQ] Connection error occured');
+    throw rabbitMQError;
+  });
 
+  const channel = await connection.createChannel();
+  channel.on('error', error => {
+    console.error(error, '[RabbitMQ] Channel error occured');
+  });
   channel.assertExchange(
     serverConfig.exchange.name,
     serverConfig.exchange.type,
