@@ -43,7 +43,7 @@ export default async function(/* Express App */ app, serverConfig) {
   );
   connection.on('error', error => {
     console.error(error, '[RabbitMQ] Connection error occured');
-    throw rabbitMQError;
+    // throw rabbitMQError;
   });
 
   const channel = await connection.createChannel();

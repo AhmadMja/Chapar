@@ -40,7 +40,15 @@ export default async function(clientConfig) {
       ? `amqp://${clientConfig.rabbitMQ.host}:${clientConfig.rabbitMQ.port}`
       : `amqp://${clientConfig.rabbitMQ.username}:${clientConfig.rabbitMQ.password}@${clientConfig.rabbitMQ.host}:${clientConfig.rabbitMQ.port}`
   );
+  connection.on('error', error => {
+    console.error(error, '[RabbitMQ] Connection error occured');
+    // throw rabbitMQError;
+  });
+
   const channel = await connection.createChannel();
+  channel.on('error', error => {
+    console.error(error, '[RabbitMQ] Channel error occured');
+  });
   channel.assertExchange(
     clientConfig.exchange.name,
     clientConfig.exchange.type,
