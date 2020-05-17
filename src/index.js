@@ -1,7 +1,7 @@
 import RPCServer from './RPCServer';
 import RPCClient from './RPCClient';
 
-export default {
+export {
   RPCServer,
   RPCClient
 };
