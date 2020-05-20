@@ -1,13 +1,13 @@
-import RPC from '../../../src';
+import { RPCClient } from '../../../src';
 
 async function main() {
-  const RPCClient = await RPC.RPCClient({
+  const ConfiguredRPCClient = await RPCClient({
     // required
     rabbitMQ: {
       host: 'localhost', // required
       port: 5672, // required
-      username: 'AhmadMja', // optional, (needed if rabbitMQ server requires authentication)
-      password: '125879Mja' // optional, (needed if rabbitMQ server requires authentication)
+      username: 'chapar', // optional, (needed if rabbitMQ server requires authentication)
+      password: 'chapar' // optional, (needed if rabbitMQ server requires authentication)
     },
     // required
     exchange: {
@@ -34,11 +34,17 @@ async function main() {
       options: {
         persistent: true // optional, default=true
       }
+    },
+    // optional
+    queryStringStringifier: {
+      extended: true, // default=true, if true chapar uses 'qs' library to stringify query object in requests
+      // o.w. it uses 'querystring' library
+      options: {} // options passed to chosen query string stringifier library
     }
   });
 
   setInterval(async () => {
-    const { status, body, headers } = await RPCClient('GET', '/2', {}, {}, {}, {});
+    const { status, body, headers } = await ConfiguredRPCClient('GET', '/2', {}, {}, {}, {});
     console.log(`${status}, ${body}, ${headers}`);
   }, 1000);
 }

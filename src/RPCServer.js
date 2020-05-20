@@ -21,9 +21,7 @@ export default async function(/* Express App */ app, serverConfig) {
       serverConfig.exchange.name != null
     )
   ) {
-    throw new Error(
-      '[Error] Chapar: Invalid Chapar config. Please specify required options as expected in docs.'
-    );
+    throw new Error('[Error] Chapar: Invalid Chapar config. Please specify required options as expected in docs.');
   }
 
   serverConfig.exchange.type = serverConfig.exchange.type || 'direct';
@@ -31,8 +29,7 @@ export default async function(/* Express App */ app, serverConfig) {
   serverConfig.queueing = serverConfig.queueing || {};
   serverConfig.requestQueue = serverConfig.requestQueue || {};
   serverConfig.requestQueue.name = serverConfig.requestQueue.name || 'HTTP_OVER_AMQP';
-  serverConfig.requestQueue.bindKey =
-    serverConfig.requestQueue.bindKey || 'HTTP_OVER_AMQP_ROUTING_KEY';
+  serverConfig.requestQueue.bindKey = serverConfig.requestQueue.bindKey || 'HTTP_OVER_AMQP_ROUTING_KEY';
   serverConfig.requestQueue.options = serverConfig.requestQueue.options || { exclusive: false };
   serverConfig.requestQueue.prefetch = serverConfig.requestQueue.prefetch || 0;
 
@@ -50,15 +47,8 @@ export default async function(/* Express App */ app, serverConfig) {
   channel.on('error', error => {
     console.error(error, '[RabbitMQ] Channel error occured');
   });
-  channel.assertExchange(
-    serverConfig.exchange.name,
-    serverConfig.exchange.type,
-    serverConfig.exchange.options
-  );
-  const queue = await channel.assertQueue(
-    serverConfig.requestQueue.name,
-    serverConfig.requestQueue.options
-  );
+  channel.assertExchange(serverConfig.exchange.name, serverConfig.exchange.type, serverConfig.exchange.options);
+  const queue = await channel.assertQueue(serverConfig.requestQueue.name, serverConfig.requestQueue.options);
   channel.prefetch(serverConfig.requestQueue.prefetch);
 
   console.log(`[INFO] ${serverConfig.exchange.name}.${serverConfig.requestQueue.name} is ready`);
@@ -91,14 +81,16 @@ export default async function(/* Express App */ app, serverConfig) {
       return;
     }
 
-    const { method, url, cookies, query, headers, body } = requestObj;
+    const { method, url, cookies, headers, body } = requestObj;
+    const query =
+      typeof app.settings['query parser fn'] === 'function'
+        ? app.settings['query parser fn'](requestObj.query)
+        : requestObj.query;
 
     const req = new ExpressRequest(method, url, cookies, query, headers, body);
     const res = new ExpressResponse(responseObj => {
       if (!validateHttpResponse(responseObj)) {
-        return new Error(
-          '[ERROR] Chapar: Invalid http response is not allowed to be sent to the queue'
-        );
+        throw new Error('[ERROR] Chapar: Invalid http response is not allowed to be sent to the queue');
       }
       channel.sendToQueue(msg.properties.replyTo, Buffer.from(JSON.stringify(responseObj)), {
         correlationId: msg.properties.correlationId,

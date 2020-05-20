@@ -4,8 +4,8 @@ module.exports= {
     rabbitMQ: {
       host: 'localhost', // required
       port: 5672, // required
-      username: 'AhmadMja', // optional, (needed if rabbitMQ server requires authentication)
-      password: '125879Mja' // optional, (needed if rabbitMQ server requires authentication)
+      username: 'chapar', // optional, (needed if rabbitMQ server requires authentication)
+      password: 'chapar' // optional, (needed if rabbitMQ server requires authentication)
     },
     // required
     exchange: {
@@ -32,6 +32,12 @@ module.exports= {
       options: {
         persistent: true // optional, default=true
       }
+    },
+    // optional
+    queryStringStringifier: {
+      extended: true, // default=true, if true chapar uses 'qs' library to stringify query object in requests
+      // o.w. it uses 'querystring' library
+      options: {} // default={}, options passed to chosen query string stringifier library
     }
   },
   serverConfig :{
@@ -39,8 +45,8 @@ module.exports= {
     rabbitMQ: {
       host: 'localhost', // required
       port: 5672, // required
-      username: 'AhmadMja', // optional, (needed if rabbitMQ server requires authentication)
-      password: '125879Mja' // optional, (needed if rabbitMQ server requires authentication)
+      username: 'chapar', // optional, (needed if rabbitMQ server requires authentication)
+      password: 'chapar' // optional, (needed if rabbitMQ server requires authentication)
     },
     // required
     exchange: {

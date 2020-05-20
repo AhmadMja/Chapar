@@ -22,10 +22,14 @@ router.get('/corrupted-response', (req, res) => {
     try {
       res.status('AN_INVALID_STATUS_CODE').json('a non-json response');
     } catch (err) {
-      res.status(500).json(err);
+      return res.status(500).json(err);
     }
-    res.status(200).json({ data: 'this route should not return 200 code' });
+    return res.status(200).json({ data: 'this route should not return 200 code' });
   }, 1000);
+});
+
+router.get('/echo-parsed-query-string', (req, res) => {
+  res.status(200).json(req.query);
 });
 
 module.exports = router;

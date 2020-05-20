@@ -2,12 +2,9 @@ import 'colors';
 import amqp from 'amqplib';
 import { describe, it, before, after } from 'mocha';
 import chai from 'chai';
-import RPC from '../src';
 
 const { expect } = chai;
-describe(`${
-  '[TEST] Chapar: Testing if Chapar-Client can connect to RabbitMQ server'.blue
-}`, async () => {
+describe(`${'[TEST] Chapar: Testing if Chapar-Client can connect to RabbitMQ server'.blue}`, async () => {
   let clientConfig;
   let clientConnection;
   let channel;
@@ -19,8 +16,8 @@ describe(`${
     done();
   });
 
-  after(done => {
-    done();
+  after(async () => {
+    return true;
   });
 
   it('A client should be able to initiate a connection to RabbitMQ broker.', async () => {
@@ -40,18 +37,11 @@ describe(`${
   });
 
   it('A client should be able to assert an exchange from the channel.', async () => {
-    channel.assertExchange(
-      clientConfig.exchange.name,
-      clientConfig.exchange.type,
-      clientConfig.exchange.options
-    );
+    channel.assertExchange(clientConfig.exchange.name, clientConfig.exchange.type, clientConfig.exchange.options);
   });
 
   it('A client should be able to assert a queue from the channel.', async () => {
-    queue = await channel.assertQueue(
-      clientConfig.replyQueue.name,
-      clientConfig.replyQueue.options
-    );
+    queue = await channel.assertQueue(clientConfig.replyQueue.name, clientConfig.replyQueue.options);
     expect(queue).not.to.be.a('null');
     expect(queue).not.to.be.an('undefined');
   });

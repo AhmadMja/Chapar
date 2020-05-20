@@ -13,8 +13,7 @@ export default {
       additionalProperties: { type: 'string' }
     },
     query: {
-      type: 'object',
-      additionalProperties: { type: 'string' }
+      type: 'string'
     },
     headers: { type: 'object', additionalProperties: { type: 'string' } },
     body: {}

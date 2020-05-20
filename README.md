@@ -52,7 +52,7 @@ Express app.js:
 
 ```javascript
 import express from 'express';
-import {RPCServer} from 'chapar';
+import { RPCServer } from 'chapar';
 
 const app = express();
 
@@ -83,7 +83,7 @@ const config = {
   }
 };
 
-chapar.RPCServer(app, config);
+RPCServer(app, config);
 
 // Common Express error handler
 
@@ -99,7 +99,7 @@ configure an export an instance of Chapar.RPCClient:
 ```js
 import {RPCClient} from 'chapar';
 
-const ConfiguredRPCClient = RPCClient({
+const ConfiguredRPCClient = await RPCClient({
   rabbitMQ: { // required
     host: 'localhost', // required
     port: 5672, // required
@@ -125,6 +125,12 @@ const ConfiguredRPCClient = RPCClient({
     options: { // optional
       persistent: true // optional, default=true
     }
+  },
+  // optional
+  queryStringStringifier: {
+    extended: true, // default=true, if true chapar uses 'qs' library to stringify query object in requests
+    // o.w. it uses 'querystring' library
+    options: {} // options passed to chosen query string stringifier library
   }
 });
 
@@ -157,6 +163,22 @@ headers: { 'x-last-login': '1583048837564' }
 ## Mutual Server-Client Usage
 
 In some cases, both micro-services may act as client and both as server. i.e. each serves some processing to  for the other. You can use both `Chapar.RPCServer` and `Chapar.RPCClient` in each one the micro-services.
+
+## Query String Functionality Support
+
+From version ```1.1.0``` Chapar started to support requests which may contain complex query string objects. You can configure ```chapar.RPCClient``` to stringify your query object with ```qs``` or ```querystring``` npm libraries through ```config.queryStringStringifier.extended```.
+
+This parameter should be set according to your remote express application. If your server express app can support extended query string parser i.e. ```app.use(express.urlencoded({ extended: true }));``` is set in your express server app 
+, you can take advantage of complex query string objects in your client by setting ```config.queryStringStringifier.extended: true```. If your server uses ```app.use(express.urlencoded({ extended: false }));``` client should be configured with ```config.queryStringStringifier.extended: false```.
+For more information about how does express deals with query strings by default, refer to [express urlencoded api](https://expressjs.com/en/api.html#express.urlencoded "express urlencoded api").
+
+**NOTE:** ```Chapar.RPCServer``` automatically reads main express application and uses the the main application query parser. No need to set any thing in ```Chapar.RPCServer```. 
+   
+
+## Changelog
+
+* version ```1.1.0``` support for complex query string objects.
+* from ```1.0.0``` to ```1.0.13``` first public release, debug and bug fixes, some changes are backward **UNcompatible** 
 
 ## Test
 

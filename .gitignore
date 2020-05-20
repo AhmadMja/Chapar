@@ -15,3 +15,5 @@ dist/
 package-lock.json
 
 config/local-*.js
+
+test/.chaparconf.js

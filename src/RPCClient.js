@@ -1,6 +1,8 @@
 import Ajv from 'ajv';
 import amqp from 'amqplib';
 import uuid from 'uuid/v1';
+import querystring from 'querystring';
+import qs from 'qs';
 import httpRequestSchema from './validator/httpRequest';
 import httpResponseSchema from './validator/httpResponse';
 
@@ -19,9 +21,7 @@ export default async function(clientConfig) {
       clientConfig.exchange.name != null
     )
   ) {
-    throw new Error(
-      '[Error] Chapar: Invalid Chapar config. Please specify required options as expected in docs.'
-    );
+    throw new Error('[Error] Chapar: Invalid Chapar config. Please specify required options as expected in docs.');
   }
 
   clientConfig.exchange.type = clientConfig.exchange.type || 'direct';
@@ -34,6 +34,9 @@ export default async function(clientConfig) {
   clientConfig.publish = clientConfig.publish || {};
   clientConfig.publish.routingKey = clientConfig.publish.routingKey || 'HTTP_OVER_AMQP_ROUTING_KEY';
   clientConfig.publish.options = clientConfig.publish.options || { persistent: true };
+  clientConfig.queryStringStringifier = clientConfig.queryStringStringifier || {};
+  clientConfig.queryStringStringifier.extended = clientConfig.queryStringStringifier.extended || true;
+  clientConfig.queryStringStringifier.options = clientConfig.queryStringStringifier.options || {};
 
   const connection = await amqp.connect(
     clientConfig.rabbitMQ.username == null
@@ -41,23 +44,16 @@ export default async function(clientConfig) {
       : `amqp://${clientConfig.rabbitMQ.username}:${clientConfig.rabbitMQ.password}@${clientConfig.rabbitMQ.host}:${clientConfig.rabbitMQ.port}`
   );
   connection.on('error', error => {
-    console.error(error, '[RabbitMQ] Connection error occured');
+    console.error(error, '[RabbitMQ] Connection error occurred');
     // throw rabbitMQError;
   });
 
   const channel = await connection.createChannel();
   channel.on('error', error => {
-    console.error(error, '[RabbitMQ] Channel error occured');
+    console.error(error, '[RabbitMQ] Channel error occurred');
   });
-  channel.assertExchange(
-    clientConfig.exchange.name,
-    clientConfig.exchange.type,
-    clientConfig.exchange.options
-  );
-  const queue = await channel.assertQueue(
-    clientConfig.replyQueue.name,
-    clientConfig.replyQueue.options
-  );
+  channel.assertExchange(clientConfig.exchange.name, clientConfig.exchange.type, clientConfig.exchange.options);
+  const queue = await channel.assertQueue(clientConfig.replyQueue.name, clientConfig.replyQueue.options);
 
   channel.prefetch(clientConfig.replyQueue.prefetch);
 
@@ -77,30 +73,31 @@ export default async function(clientConfig) {
       const { status, body, headers } = responseObj;
 
       const callbackObject = callbackCorrMap.find(x => x.corr === msg.properties.correlationId);
-      if (
-        callbackObject &&
-        callbackObject.resolve &&
-        typeof callbackObject.resolve === 'function'
-      ) {
+      if (callbackObject && callbackObject.resolve && typeof callbackObject.resolve === 'function') {
         callbackObject.resolve({ status, body, headers });
         callbackCorrMap.splice(callbackCorrMap.indexOf(callbackObject), 1);
       } else {
-        console.log(
-          '[WARNING] Chapar: A message received in the queue which correlated callback was not found in the client.'
-        );
+        console.log('[WARNING] Chapar: A message received in the queue which correlated callback was not found in the client.');
       }
     },
     { noAck: false }
   );
 
   async function RPCImpl(method, url, cookies, query, headers, body) {
-    const requestObj = { method, url, cookies, query, headers, body };
+    const requestObj = {
+      method,
+      url,
+      cookies,
+      query: clientConfig.queryStringStringifier.extended
+        ? qs.stringify(query, clientConfig.queryStringStringifier.options)
+        : querystring.stringify(query, clientConfig.queryStringStringifier.options),
+      headers,
+      body
+    };
 
     if (!validateHttpRequest(requestObj)) {
       return new Promise((resolve, reject) => {
-        reject(
-          new Error('[ERROR] Chapar: Invalid http request is not allowed to be sent to the queue')
-        );
+        reject(new Error('[ERROR] Chapar: Invalid http request is not allowed to be sent to the queue'));
       });
     }
 

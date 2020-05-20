@@ -2,7 +2,8 @@ import express from 'express';
 import createError from 'http-errors';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import chapar from '../../../index';
+import { inspect } from 'util';
+import { RPCServer } from '../../../index';
 
 const indexRouter = require('./routes');
 
@@ -20,8 +21,8 @@ const config = {
   rabbitMQ: {
     host: 'localhost', // required
     port: 5672, // required
-    username: 'AhmadMja', // optional, (needed if rabbitMQ server requires authentication)
-    password: '125879Mja' // optional, (needed if rabbitMQ server requires authentication)
+    username: 'chapar', // optional, (needed if rabbitMQ server requires authentication)
+    password: 'chapar' // optional, (needed if rabbitMQ server requires authentication)
   },
   // required
   exchange: {
@@ -44,7 +45,7 @@ const config = {
   }
 };
 
-chapar.RPCServer(app, config);
+RPCServer(app, config);
 
 app.use((req, res, next) => {
   next(createError(404));
@@ -52,9 +53,7 @@ app.use((req, res, next) => {
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  res
-    .status(err.status || 500)
-    .json({ success: false, message: err.message, data: err.toString() });
+  res.status(err.status || 500).json({ success: false, message: err.message, data: err.toString() });
 });
 
 module.exports = app;

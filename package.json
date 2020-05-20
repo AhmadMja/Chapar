@@ -1,6 +1,6 @@
 {
   "name": "chapar",
-  "version": "1.0.13",
+  "version": "1.1.0",
   "description": "Reliable Express/Node.js RPC over RabbitMQ",
   "main": "dist/index.js",
   "scripts": {
@@ -20,6 +20,8 @@
     "http-errors": "^1.7.3",
     "lodash": "^4.17.15",
     "morgan": "~1.9.1",
+    "qs": "^6.9.4",
+    "querystring": "^0.2.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
