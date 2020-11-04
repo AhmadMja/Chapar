@@ -5,7 +5,7 @@ export default {
       type: 'integer'
     },
     body: {},
-    headers: { type: 'object', additionalProperties: { type: 'string' } }
+    headers: { type: 'object', additionalProperties: { type: ['string', 'number', 'boolean'] } }
   },
   required: ['status'],
   additionalProperties: false

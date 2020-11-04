@@ -15,7 +15,7 @@ export default {
     query: {
       type: 'string'
     },
-    headers: { type: 'object', additionalProperties: { type: 'string' } },
+    headers: { type: 'object', additionalProperties: { type: ['string', 'number', 'boolean'] } },
     body: {}
   },
   required: ['method', 'url'],
