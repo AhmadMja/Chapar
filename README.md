@@ -177,6 +177,7 @@ For more information about how does express deals with query strings by default,
 
 ## Changelog
 
+* Version ```1.1.2``` fixed a bug in http headers validation.
 * Version ```1.1.1``` export chapar in both `default` and explicit way so that both `import chapar from 'chapar'` and `import {RPCServer} from 'chapar'` works.
 * Version ```1.1.0``` support for complex query string objects.
 * From ```1.0.0``` to ```1.0.13``` first public release, debug and bug fixes, some changes are backward **UNcompatible** 
